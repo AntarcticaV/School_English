@@ -1,0 +1,114 @@
+﻿<Window x:Class="School_English.Windows.ClientEditAndCreate"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:School_English.Windows"
+        mc:Ignorable="d"
+        Title="ClientEditAndCreate" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" VerticalAlignment="Center" Margin="40">
+                <Image x:Name="ImageClient" Height="150" Width="150"/>
+            </StackPanel>
+            <StackPanel Grid.Row="1" VerticalAlignment="Center">
+                <Button x:Name="ButtonImageChange" Content="Загрузить фотографию" Margin="10" Height="40" Click="ButtonImageChange_OnClick"/>
+            </StackPanel>
+        </Grid>
+        <Grid x:Name="gridInfoClient" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="1.5*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="1.5*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="ID:" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox   x:Name="textBoxID" IsReadOnly="True"  Width="100" Grid.Row="0" Grid.Column="1" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+            <TextBlock Text="Имя:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox x:Name="textBoxFirstName" Width="100" Grid.Row="1" Grid.Column="1" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+            <TextBlock Text="Фамилия:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox  x:Name="textBoxSecondName" Width="100" Grid.Row="2" Grid.Column="1" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+            <TextBlock Text="Отчество:" Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox  x:Name="textBoxPatronymic" Width="100" Grid.Row="3" Grid.Column="1" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+            <TextBlock Text="Email:" Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox  x:Name="textBoxEmail" Width="100" Grid.Row="4" Grid.Column="1" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+            <TextBlock Text="Телефон:" Grid.Row="5" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox  x:Name="textBoxPhone" Width="100" Grid.Row="5" Grid.Column="1" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+
+            <TextBlock Text="Дата рождения:" Grid.Row="6" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <DatePicker x:Name="datePickerBirthday" Width="100" Grid.Row="6" Grid.Column="1" Margin="10" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <DatePicker.Resources >
+                    <Style TargetType="DatePickerTextBox">
+                        <Setter Property="IsReadOnly" Value="True"/>
+                    </Style>
+                </DatePicker.Resources>
+            </DatePicker>
+
+
+            <TextBlock Text="Пол:" Grid.Row="7" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <StackPanel Grid.Row="7" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Orientation="Vertical"  >
+                <RadioButton x:Name="radioButtonMale" GroupName="gender" Margin="5" Content="Мужской"  />
+                <RadioButton x:Name="radioButtonFmale" GroupName="gender" Margin="5" Content="Женский" />
+            </StackPanel>
+            <StackPanel Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" >
+                <Button x:Name="ButtonSave" Content="Сохранить изменение" Margin="10" Height="40" Click="ButtonSave_OnClick"/>
+            </StackPanel>
+
+        </Grid>
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="4*" />
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <DataGrid x:Name="dataGridTag" Margin="10" AutoGenerateColumns="False"  IsReadOnly="True" GridLinesVisibility="None">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Название" Binding="{Binding Title}" Width="*"/>
+                    <DataGridTextColumn Header="Цвет" Binding="{Binding Color}" Width="*"/>
+                </DataGrid.Columns>
+                <DataGrid.ItemContainerStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="Background" Value="{Binding Color}"/>
+                    </Style>
+                </DataGrid.ItemContainerStyle>
+            </DataGrid>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="buttonAddTag" Content="Додавить тэг" Grid.Column="0" Margin="10" Height="40" Click="ButtonAddTag_OnClick"/>
+                <Button x:Name="buttomDeleteTag" Content="Удалить тэг" Grid.Column="1" Margin="10" Height="40" Click="ButtomDeleteTag_OnClick"/>
+            </Grid>
+            <Button x:Name="buttonBack"  Grid.Row="2" Margin="10" Height="40" Content="Отмена" Click="ButtonBack_OnClick"/>
+        </Grid>
+
+    </Grid>
+</Window>

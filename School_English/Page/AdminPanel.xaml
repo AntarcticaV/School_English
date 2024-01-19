@@ -1,0 +1,196 @@
+﻿<Page x:Class="School_English.Page.AdminPanel"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:School_English.Page"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="AdminPanel">
+
+    <Grid>
+        <Grid.Resources>
+            <DataTemplate x:Key="DataTemplateDataGrid">
+                <Border BorderBrush="Black" Margin="5">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="4*"/>
+                            <ColumnDefinition Width="5*"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{Binding ID}" />
+                        </StackPanel>
+                        <StackPanel Grid.Column="1">
+                            <Image />
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding FirstName}" Margin="0,0,2,0"/>
+                                <TextBlock Text="{Binding LastName}" Margin="0,0,2,0"/>
+                                <TextBlock Text="{Binding Patronymic}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Пол: "/>
+                                <TextBlock Text="{Binding Gender.Name}"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Grid.Column="3" Orientation="Vertical" >
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Birthday: " />
+                                <TextBlock Text="{Binding Birthday, StringFormat=dd/MM/yyyy}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Phone: " />
+                                <TextBlock Text="{Binding Phone}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Email: " />
+                                <TextBlock Text="{Binding Email}"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="4" Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Registration Date: "/>
+                                <TextBlock Text="{Binding RegistrationDate, StringFormat=dd/MM/yyyy}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Date of last visit: "/>
+
+                                <TextBlock Text="{Binding DateOfLastVisit, StringFormat=dd/MM/yyyy}" />
+
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Number of visits: "/>
+
+                                <TextBlock Text="{Binding NumberOfSessions}" />
+
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Tag: "/>
+                                <ItemsControl ItemsSource="{Binding Tag}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Title}"  Foreground="{Binding Color}"/>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </Grid.Resources>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition  Width="*"/>
+                <ColumnDefinition  Width="*"/>
+                <ColumnDefinition  Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center" Margin="5,0,5,0" >
+                <TextBlock Text="Фильтр по полу:"/>
+                <ComboBox x:Name="comboBoxGender" SelectionChanged="ComboBoxGender_OnSelectionChanged">
+                    <ComboBoxItem Tag="0">
+                        <TextBlock Text="Все"/>
+                    </ComboBoxItem>
+                    <ComboBoxItem Tag="1">
+                        <TextBlock Text="Мужской" />
+                    </ComboBoxItem>
+                    <ComboBoxItem Tag="2">
+                        <TextBlock Text="Женский" />
+                    </ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="5,0,5,0">
+                <TextBlock Text="Поиск:" />
+                <TextBox x:Name="textBoxFilter" TextChanged="TextBoxFilter_OnTextChanged"/>
+            </StackPanel>
+            <StackPanel Grid.Column="2" VerticalAlignment="Center" Margin="5,0,5,0">
+                <TextBlock Text="Сортировка:" />
+                <ComboBox x:Name="comboBoxSort" SelectionChanged="ComboBoxSort_OnSelectionChanged">
+                    <ComboBoxItem Tag="0">
+                        <TextBlock Text="Фамилия"/>
+                    </ComboBoxItem>
+                    <ComboBoxItem Tag="1">
+                        <TextBlock Text="Дата последнего посещения" />
+                    </ComboBoxItem>
+                    <ComboBoxItem Tag="2">
+                        <TextBlock Text="Количество посещений" />
+                    </ComboBoxItem>
+                    <ComboBoxItem Tag="3">
+                        <TextBlock Text="ID" />
+                    </ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
+        </Grid>
+        <DataGrid x:Name="DataGridClient" Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" GridLinesVisibility="None" MouseDoubleClick="DataGridClient_OnMouseDoubleClick">
+            <DataGrid.Columns>
+
+                <DataGridTemplateColumn CellTemplate="{StaticResource DataTemplateDataGrid}" Width="*">
+
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+            <DataGrid.ItemContainerStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding FlagToBirthday}" Value="true">
+                            <Setter Property="Background" Value="Green"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.ItemContainerStyle>
+
+        </DataGrid>
+        <Grid Grid.Row="2" Background="White">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal">
+                <TextBlock Text="Отобразить: " Margin="5"/>
+                <Button Content="10" Background="White" BorderBrush="White" Margin="5" x:Name="ButtonOutTen" Click="ButtonOutTen_OnClick"/>
+                <Button Content="50" Background="White" BorderBrush="White" Margin="5" x:Name="ButtonOutFifty" Click="ButtonOutFifty_OnClick"/>
+                <Button Content="200" Background="White" BorderBrush="White" Margin="5" x:Name="ButtonOutTwoHundred" Click="ButtonOutTwoHundred_OnClick"/>
+                <Button Content="Все" Background="White" BorderBrush="White" Margin="5" x:Name="ButtonOutAll" Click="ButtonOutAll_OnClick"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock x:Name="TextBlockCount"/>
+            </StackPanel>
+            <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Orientation="Horizontal" >
+                <Button x:Name="ButtonFirstPage" Height="30" Width="30" Margin="5" Content="&lt;&lt;" Click="ButtonFirstPage_OnClick"/>
+                <Button x:Name="ButtonBackPage" Height="30" Width="30" Margin="5" Content="&lt;" Click="ButtonBackPage_OnClick"/>
+                <TextBox x:Name="TextBoxNumberPage"  Height="30" Width="30" Margin="5" Text="1" TextAlignment="Center" Padding="5" IsReadOnly="True"/>
+                <Button x:Name="ButtonNextPage" Height="30" Width="30" Margin="5" Content="&gt;" Click="ButtonNextPage_OnClick"/>
+                <Button x:Name="ButtonLastPage" Height="30" Width="30" Margin="5" Content="&gt;&gt;" Click="ButtonLastPage_OnClick"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button x:Name="ButtonAddClient" Height="40" Width="200" Content="Добавить клиента" Click="ButtonAddClient_OnClick"/>
+            </StackPanel>
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" >
+                <Button x:Name="ButtonEditClient" Height="40" Width="200" Content="Изменить клиента" Click="ButtonEditClient_OnClick"/>
+            </StackPanel>
+            <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Button x:Name="ButtonDeleteClient" Height="40" Width="200" Content="Удалить клиента" Click="ButtonDeleteClient_OnClick"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Page>
